@@ -1,24 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "motion/react";
+import {
+  motion,
+  useScroll,
+  useMotionValueEvent,
+  AnimatePresence,
+} from "motion/react";
+import { ChevronDownIcon } from "./icons";
 
-const NAV_LINKS = [
+type NavLink = {
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
+};
+
+const NAV_LINKS: NavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
+  {
+    href: "/services",
+    label: "Services",
+    children: [
+      { href: "/services", label: "All Services" },
+      { href: "/services/airtable", label: "Airtable Services" },
+    ],
+  },
   { href: "/labs", label: "Labs" },
   { href: "/resources", label: "Resources" },
   { href: "#contact", label: "Contact" },
 ];
 
-const transition = { duration: 0.35, ease: [0.25, 0.1, 0.25, 1.0] as const };
+const transition = {
+  duration: 0.35,
+  ease: [0.25, 0.1, 0.25, 1.0] as const,
+};
 
 export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -35,6 +60,76 @@ export function Navbar() {
     return isActive(href)
       ? "text-foreground font-medium"
       : "text-muted transition-colors hover:text-foreground";
+  }
+
+  const openDropdown = useCallback(() => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    setDropdownOpen(true);
+  }, []);
+
+  const closeDropdown = useCallback(() => {
+    hoverTimeoutRef.current = setTimeout(() => setDropdownOpen(false), 150);
+  }, []);
+
+  function renderDesktopLink(link: NavLink) {
+    if (link.children) {
+      return (
+        <div
+          key={link.href}
+          className="relative"
+          onMouseEnter={openDropdown}
+          onMouseLeave={closeDropdown}
+        >
+          <span
+            className={`inline-flex items-center gap-1 text-sm whitespace-nowrap cursor-default ${linkClass(link.href)}`}
+          >
+            {link.label}
+            <motion.span
+              animate={{ rotate: dropdownOpen ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="inline-flex scale-75"
+            >
+              <ChevronDownIcon />
+            </motion.span>
+          </span>
+          <AnimatePresence>
+            {dropdownOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -4, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -4, scale: 0.97 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-52 rounded-xl border border-border/60 bg-background/90 backdrop-blur-md p-2 shadow-lg"
+              >
+                {link.children.map((child) => (
+                  <Link
+                    key={child.href}
+                    href={child.href}
+                    className={`block rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                      pathname === child.href
+                        ? "bg-neutral-100 text-foreground font-medium"
+                        : "text-muted hover:bg-neutral-50 hover:text-foreground"
+                    }`}
+                  >
+                    {child.label}
+                  </Link>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      );
+    }
+
+    return (
+      <Link
+        key={link.href}
+        href={link.href}
+        className={`text-sm whitespace-nowrap ${linkClass(link.href)}`}
+      >
+        {link.label}
+      </Link>
+    );
   }
 
   return (
@@ -60,11 +155,11 @@ export function Navbar() {
         {/* ─── Left zone: "Home" in extended state ─── */}
         <motion.div
           animate={{
-            width: isScrolled ? "auto" : 0,
+            flex: isScrolled ? 1 : 0,
             opacity: isScrolled ? 1 : 0,
           }}
           transition={transition}
-          className="hidden md:flex flex-shrink-0 overflow-hidden"
+          className="hidden md:flex items-center overflow-hidden"
         >
           <Link
             href="/"
@@ -83,7 +178,7 @@ export function Navbar() {
               scale: isScrolled ? 1 : 0.85,
             }}
             transition={transition}
-            className="hidden md:block text-[15px] font-semibold tracking-tight absolute"
+            className={`hidden md:block text-lg font-semibold tracking-tight absolute ${!isScrolled ? "pointer-events-none" : ""}`}
             aria-hidden={!isScrolled}
           >
             Lean<span className="text-muted">Ventures</span>
@@ -98,15 +193,7 @@ export function Navbar() {
             className={`hidden md:flex items-center gap-8 ${isScrolled ? "pointer-events-none" : ""}`}
             aria-hidden={isScrolled}
           >
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm whitespace-nowrap ${linkClass(link.href)}`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => renderDesktopLink(link))}
           </motion.div>
 
           {/* Mobile: hamburger button */}
@@ -139,24 +226,18 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* ─── Right zone: "Services Labs Contact" in extended state ─── */}
+        {/* ─── Right zone: links in extended state ─── */}
         <motion.div
           animate={{
-            width: isScrolled ? "auto" : 0,
+            flex: isScrolled ? 1 : 0,
             opacity: isScrolled ? 1 : 0,
           }}
           transition={transition}
-          className="hidden md:flex flex-shrink-0 items-center gap-8 overflow-hidden"
+          className="hidden md:flex items-center justify-end gap-8 overflow-hidden"
         >
-          {NAV_LINKS.filter((l) => l.href !== "/").map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm whitespace-nowrap ${linkClass(link.href)}`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.filter((l) => l.href !== "/").map((link) =>
+            renderDesktopLink(link)
+          )}
         </motion.div>
       </motion.div>
 
@@ -175,18 +256,74 @@ export function Navbar() {
             </p>
             <div className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`rounded-lg px-4 py-2.5 text-sm text-center transition-colors ${
-                    isActive(link.href)
-                      ? "bg-neutral-100 text-foreground font-medium"
-                      : "text-muted hover:bg-neutral-50 hover:text-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href}>
+                  {link.children ? (
+                    <>
+                      <button
+                        onClick={() =>
+                          setMobileServicesOpen(!mobileServicesOpen)
+                        }
+                        className={`w-full flex items-center justify-center gap-1 rounded-lg px-4 py-2.5 text-sm transition-colors ${
+                          isActive(link.href)
+                            ? "bg-neutral-100 text-foreground font-medium"
+                            : "text-muted hover:bg-neutral-50 hover:text-foreground"
+                        }`}
+                      >
+                        {link.label}
+                        <motion.span
+                          animate={{
+                            rotate: mobileServicesOpen ? 180 : 0,
+                          }}
+                          transition={{ duration: 0.2 }}
+                          className="inline-flex scale-75"
+                        >
+                          <ChevronDownIcon />
+                        </motion.span>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {mobileServicesOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            {link.children.map((child) => (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                onClick={() => {
+                                  setMobileOpen(false);
+                                  setMobileServicesOpen(false);
+                                }}
+                                className={`block rounded-lg px-6 py-2 text-sm text-center transition-colors ${
+                                  pathname === child.href
+                                    ? "text-foreground font-medium"
+                                    : "text-muted hover:text-foreground"
+                                }`}
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`block rounded-lg px-4 py-2.5 text-sm text-center transition-colors ${
+                        isActive(link.href)
+                          ? "bg-neutral-100 text-foreground font-medium"
+                          : "text-muted hover:bg-neutral-50 hover:text-foreground"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+                </div>
               ))}
             </div>
           </motion.div>
