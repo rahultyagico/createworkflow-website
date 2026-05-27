@@ -31,19 +31,19 @@ import { FAQItem } from "@/components/FAQItem";
 const TESTIMONIALS = [
   {
     quote:
-      "He doesn't just know how to build things — he understands why certain approaches are better than others. Every recommendation came with reasoning. He steered me toward proven structures and scalable automation patterns, saving me significant time, rework, and resources. The speed at which I can now design, iterate, and improve has increased dramatically.",
+      "They don't just know how to build things — they understand why certain approaches are better than others. Every recommendation came with reasoning. They steered me toward proven structures and scalable automation patterns, saving me significant time, rework, and resources. The speed at which I can now design, iterate, and improve has increased dramatically.",
     name: "[Name]",
     role: "[Role]",
   },
   {
     quote:
-      "Rahul is more than a talented IT person. He has very good business and common sense and is a terrific sounding board on problem solving and offering creative solutions. He was very responsive and reliable. I would recommend him highly — and as we progress, we'll likely bring him on full time.",
+      "Create Workflow is more than a talented tech team. They have very good business and common sense and are a terrific sounding board on problem solving and offering creative solutions. Very responsive and reliable. I would recommend them highly.",
     name: "[Name]",
     role: "[Role]",
   },
   {
     quote:
-      "My problem persisted for 6 months until Rahul came and delivered the project in 3 days. He went an extra mile to help me host and run it, which wasn't in his scope. Rahul is top tier talent and one of the most professional people I've seen in tech. Extremely reliable.",
+      "My problem persisted for 6 months until Create Workflow came and delivered the project in 3 days. They went an extra mile to help me host and run it, which wasn't in their scope. Create Workflow is top tier talent and one of the most professional teams I've seen in tech. Extremely reliable.",
     name: "[Name]",
     role: "[Role]",
   },
