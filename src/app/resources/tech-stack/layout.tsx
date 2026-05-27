@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Recommended Tech Stack for Founders | LeanVentures",
+  title: "Recommended Tech Stack for Founders | Create Workflow",
   description:
     "Our curated list of tools and software we use and recommend to every founder. Automation, databases, hosting, design, AI, and payments.",
 };

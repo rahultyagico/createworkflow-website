@@ -59,7 +59,7 @@ export default function Labs() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted"
           >
-            LeanVentures Labs is our custom development arm. We build bespoke
+            Create Workflow is our custom development arm. We build bespoke
             tools, AI agents, internal platforms, and complex integrations for
             founders who need something that doesn&rsquo;t exist yet.
           </motion.p>
@@ -490,8 +490,8 @@ export default function Labs() {
             variants={staggerContainer}
           >
             <FAQItem
-              question="How is Labs different from LeanWorkflows?"
-              answer="LeanWorkflows offers productized automation services — fixed packages for n8n workflows, Airtable systems, and integrations. Labs is for projects that don't fit a package. Custom internal tools, AI agents, full-stack MVPs, data pipelines — anything that needs to be built from scratch."
+              question="How is this different from automation services?"
+              answer="Create Workflow offers productized automation services — fixed packages for n8n workflows, Airtable systems, and integrations. Customized Solutions is for projects that don't fit a package. Custom internal tools, AI agents, full-stack MVPs, data pipelines — anything that needs to be built from scratch."
             />
             <FAQItem
               question="What's the typical budget range?"
@@ -554,14 +554,14 @@ export default function Labs() {
             solutions, and give you an honest quote&mdash;no obligation.
           </motion.p>
           <motion.a
-            href="mailto:labs@leanventures.com"
+            href="mailto:labs@createworkflow.com"
             variants={fadeUp}
             transition={{ duration: 0.6 }}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             className="mt-10 inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-medium text-foreground shadow-sm transition-opacity hover:opacity-90"
           >
-            labs@leanventures.com
+            labs@createworkflow.com
           </motion.a>
         </motion.div>
       </section>
@@ -577,28 +577,16 @@ export default function Labs() {
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 text-xs text-muted sm:flex-row">
           <div className="flex flex-col items-center gap-1 sm:items-start">
             <span>
-              &copy; {new Date().getFullYear()} LeanVentures Labs. All rights
+              &copy; {new Date().getFullYear()} Create Workflow. All rights
               reserved.
             </span>
-            <a
-              href="/"
-              className="text-muted/60 transition-colors hover:text-foreground"
-            >
-              A LeanVentures company
-            </a>
           </div>
           <div className="flex gap-6">
             <a
               href="/services"
               className="transition-colors hover:text-foreground"
             >
-              LeanWorkflows.ai
-            </a>
-            <a
-              href="/"
-              className="transition-colors hover:text-foreground"
-            >
-              LeanVentures
+              Create Workflow
             </a>
             <a
               href="#contact"

@@ -23,12 +23,10 @@ const NAV_LINKS: NavLink[] = [
     href: "/services",
     label: "Services",
     children: [
-      { href: "/services", label: "All Services" },
       { href: "/services/airtable", label: "Airtable Services" },
+      { href: "/labs", label: "Customized Solutions" },
     ],
   },
-  { href: "/labs", label: "Labs" },
-  { href: "/resources", label: "Resources" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -181,7 +179,7 @@ export function Navbar() {
             className={`hidden md:block text-lg font-semibold tracking-tight absolute ${!isScrolled ? "pointer-events-none" : ""}`}
             aria-hidden={!isScrolled}
           >
-            Lean<span className="text-muted">Ventures</span>
+            Create<span className="text-muted"> Workflow</span>
           </motion.span>
 
           {/* Compact links — visible in pill state */}
@@ -252,7 +250,7 @@ export function Navbar() {
             className="pointer-events-auto md:hidden mx-auto mt-2 max-w-[280px] rounded-2xl border border-border/60 bg-background/90 backdrop-blur-md p-4"
           >
             <p className="text-center text-[13px] font-semibold tracking-tight text-muted mb-4">
-              Lean<span className="text-foreground">Ventures</span>
+              Create<span className="text-foreground"> Workflow</span>
             </p>
             <div className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
