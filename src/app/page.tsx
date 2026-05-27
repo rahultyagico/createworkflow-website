@@ -1,33 +1,61 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 import {
   fadeUp,
   fadeIn,
-  scaleIn,
   staggerContainer,
   heroStagger,
 } from "@/components/animations";
 import {
-  ToolsIcon,
-  BoxIcon,
-  FlaskIcon,
-  CheckIcon,
-  ArrowRightIcon,
+  N8nIcon,
+  AirtableIcon,
+  WebhookIcon,
+  ZapIcon,
+  IntegrationIcon,
+  StrategyIcon,
+  MigrationIcon,
+  SupportIcon,
+  UsersIcon,
+  ClockIcon,
+  ShieldIcon,
 } from "@/components/icons";
+import { ServiceCard } from "@/components/ServiceCard";
+import { StepCard } from "@/components/StepCard";
+import { ReviewCard } from "@/components/ReviewCard";
+import { SectionHeader } from "@/components/SectionHeader";
+import { PricingCard } from "@/components/PricingCard";
+import { FAQItem } from "@/components/FAQItem";
 
-export default function LeanVentures() {
+export default function Home() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const blobY = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const blobScale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
+  const blobOpacity = useTransform(scrollYProgress, [0, 0.8], [0.3, 0]);
+
   return (
     <div className="min-h-screen font-sans">
       {/* ─── HERO ─── */}
-      <section className="relative isolate flex min-h-screen items-center justify-center overflow-hidden">
-        <div
+      <section
+        ref={heroRef}
+        className="relative isolate flex min-h-screen items-center justify-center overflow-hidden"
+      >
+        <motion.div
           aria-hidden
-          className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-[480px] w-[640px] -translate-x-1/2 rounded-full opacity-25 blur-[100px]"
           style={{
+            y: blobY,
+            scale: blobScale,
+            opacity: blobOpacity,
             background:
-              "radial-gradient(ellipse, #dbeafe, #e0e7ff, transparent 70%)",
+              "radial-gradient(ellipse, var(--gradient-start), var(--gradient-end), transparent 70%)",
           }}
+          className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-[480px] w-[640px] -translate-x-1/2 rounded-full blur-[100px]"
         />
 
         <motion.div
@@ -42,10 +70,10 @@ export default function LeanVentures() {
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted"
           >
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
-            Services + Products for founders
+            Accepting new clients
           </motion.div>
 
           <motion.h1
@@ -53,11 +81,9 @@ export default function LeanVentures() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-4xl font-semibold leading-[1.15] tracking-tight sm:text-5xl md:text-6xl"
           >
-            Building tools and services
+            You focus on the vision.
             <br />
-            <span className="text-muted">
-              for the next generation of founders.
-            </span>
+            <span className="text-muted">We build the systems.</span>
           </motion.h1>
 
           <motion.p
@@ -65,9 +91,9 @@ export default function LeanVentures() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted"
           >
-            LeanVentures is a studio that helps early-stage founders move
-            faster&mdash;through hands-on automation services and purpose-built
-            products.
+            Technical services for non-technical founders. We design n8n
+            automations, Airtable backends, and custom integrations&mdash;so
+            your startup runs on autopilot.
           </motion.p>
 
           <motion.div
@@ -76,382 +102,360 @@ export default function LeanVentures() {
             className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <motion.a
-              href="/services"
+              href="#contact"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-8 text-sm font-medium text-accent-foreground shadow-sm transition-opacity hover:opacity-80"
             >
-              Explore our services
+              Get a free consultation
             </motion.a>
             <motion.a
-              href="#products"
+              href="#services"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-card px-8 text-sm font-medium text-foreground transition-colors hover:bg-border/40"
             >
-              See our products
+              See what we do
             </motion.a>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* ─── TWO ARMS ─── */}
-      <section
-        id="arms"
-        className="flex min-h-screen items-center border-y border-border/60 bg-card py-24 sm:py-32"
+      {/* ─── TRUST BAR ─── */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        variants={fadeIn}
+        transition={{ duration: 0.6 }}
+        className="border-y border-border/60 bg-card"
       >
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-12 gap-y-4 px-6 py-8 text-muted">
+          <span className="text-xs font-medium uppercase tracking-widest">
+            Built with
+          </span>
+          {[
+            { icon: <N8nIcon />, label: "n8n" },
+            { icon: <AirtableIcon />, label: "Airtable" },
+            { icon: <WebhookIcon />, label: "REST APIs" },
+            { icon: <ZapIcon />, label: "Zapier" },
+          ].map((item) => (
+            <motion.div
+              key={item.label}
+              whileHover={{ y: -2 }}
+              className="flex items-center gap-2.5"
+            >
+              {item.icon}
+              <span className="text-sm font-semibold text-foreground">
+                {item.label}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* ─── STATS ─── */}
+      <section className="flex min-h-screen items-center justify-center py-24 sm:py-32">
+        <div className="mx-auto max-w-4xl px-6">
           <motion.div
+            className="grid grid-cols-2 gap-10 sm:grid-cols-4 sm:gap-12"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            variants={heroStagger}
+            variants={staggerContainer}
           >
-            <motion.p
-              variants={fadeUp}
-              transition={{ duration: 0.5 }}
-              className="text-xs font-semibold uppercase tracking-widest text-muted"
-            >
-              What we do
-            </motion.p>
-            <motion.h2
-              variants={fadeUp}
-              transition={{ duration: 0.5 }}
-              className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
-            >
-              Three ways we help founders
-            </motion.h2>
+            {[
+              { number: "500+", label: "Workflows Built" },
+              { number: "50+", label: "Founders Helped" },
+              { number: "12", label: "Countries Served" },
+              { number: "98%", label: "Client Satisfaction" },
+            ].map((stat) => (
+              <motion.div
+                key={stat.label}
+                variants={fadeUp}
+                transition={{ duration: 0.5 }}
+                className="text-center"
+              >
+                <p className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                  {stat.number}
+                </p>
+                <p className="mt-2 text-sm text-muted">{stat.label}</p>
+              </motion.div>
+            ))}
           </motion.div>
+        </div>
+      </section>
 
+      {/* ─── SERVICES ─── */}
+      <section
+        id="services"
+        className="flex min-h-screen items-center border-y border-border/60 bg-card py-24 sm:py-32"
+      >
+        <div className="mx-auto max-w-5xl px-6">
+          <SectionHeader
+            label="What we do"
+            title="End-to-end workflow engineering"
+            description="From quick automations to full operational backends, we handle the technical complexity so you don't have to."
+          />
           <motion.div
             className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+          >
+            <ServiceCard
+              icon={<N8nIcon />}
+              title="n8n Workflow Design"
+              description="Custom n8n workflows that connect your tools, automate repetitive tasks, and keep your data flowing — built to scale with you."
+            />
+            <ServiceCard
+              icon={<AirtableIcon />}
+              title="Airtable Systems"
+              description="Relational databases, dashboards, and interfaces on Airtable — structured so your entire team can operate without spreadsheets."
+            />
+            <ServiceCard
+              icon={<IntegrationIcon />}
+              title="Custom Integrations"
+              description="API integrations between your CRM, payments, email, and ops tools. We wire everything together so nothing falls through the cracks."
+            />
+            <ServiceCard
+              icon={<StrategyIcon />}
+              title="Automation Strategy"
+              description="Not sure where to start? We audit your workflows, identify bottlenecks, and build a prioritized automation roadmap."
+            />
+            <ServiceCard
+              icon={<MigrationIcon />}
+              title="Data Migration"
+              description="Moving from spreadsheets to structured systems? We handle the migration cleanly — no data loss, no downtime."
+            />
+            <ServiceCard
+              icon={<SupportIcon />}
+              title="Ongoing Support"
+              description="Retainer plans for monitoring, updates, and new workflow requests as your business evolves. We grow with you."
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── WHY LEANWORKFLOWS ─── */}
+      <section className="flex min-h-screen items-center py-24 sm:py-32">
+        <div className="mx-auto max-w-5xl px-6">
+          <SectionHeader
+            label="Why Create Workflow"
+            title="Built for founders, not enterprises"
+          />
+          <motion.div
+            className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
           >
-            {/* Services Arm */}
-            <motion.div
-              variants={scaleIn}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -4 }}
-              className="flex flex-col rounded-2xl border border-card-border bg-background p-8"
-            >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-100 text-foreground">
-                <ToolsIcon />
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-                Services
-              </p>
-              <h3 className="mt-2 text-xl font-semibold">LeanWorkflows.ai</h3>
-              <p className="mt-1 text-sm text-muted">
-                Done-for-you automation
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-muted">
-                We design and build the workflows, databases, and integrations
-                that power your operations&mdash;so you can focus on growth.
-              </p>
-              <ul className="mt-6 flex flex-col gap-2.5">
-                {[
-                  "n8n workflow design",
-                  "Airtable backends",
-                  "Custom API integrations",
-                  "Ongoing support plans",
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2.5 text-sm text-foreground"
-                  >
-                    <span className="text-emerald-600">
-                      <CheckIcon />
-                    </span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-auto pt-8">
-                <motion.a
-                  href="/services"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-opacity hover:opacity-70"
-                >
-                  Visit LeanWorkflows.ai
-                  <ArrowRightIcon />
-                </motion.a>
-              </div>
-            </motion.div>
-
-            {/* Products Arm */}
-            <motion.div
-              variants={scaleIn}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -4 }}
-              className="flex flex-col rounded-2xl border border-card-border bg-background p-8"
-            >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-100 text-foreground">
-                <BoxIcon />
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-                Products
-              </p>
-              <h3 className="mt-2 text-xl font-semibold">LeanProducts</h3>
-              <p className="mt-1 text-sm text-muted">
-                Tools built for founders
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-muted">
-                We build focused, opinionated SaaS tools that solve real
-                problems for early-stage startups. No bloat, just what you need.
-              </p>
-              <ul className="mt-6 flex flex-col gap-2.5">
-                {[
-                  "LeanPlanner.app (coming soon)",
-                  "More products in development",
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2.5 text-sm text-foreground"
-                  >
-                    <span className="text-emerald-600">
-                      <CheckIcon />
-                    </span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-auto pt-8">
-                <motion.a
-                  href="#products"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-opacity hover:opacity-70"
-                >
-                  See LeanPlanner below
-                  <ArrowRightIcon />
-                </motion.a>
-              </div>
-            </motion.div>
-
-            {/* Labs Arm */}
-            <motion.div
-              variants={scaleIn}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -4 }}
-              className="flex flex-col rounded-2xl border border-card-border bg-background p-8"
-            >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-neutral-100 text-foreground">
-                <FlaskIcon />
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-                Labs
-              </p>
-              <h3 className="mt-2 text-xl font-semibold">LeanVentures Labs</h3>
-              <p className="mt-1 text-sm text-muted">
-                Custom development
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-muted">
-                When off-the-shelf tools aren&rsquo;t enough, our Labs team
-                builds custom software&mdash;AI agents, internal tools, data
-                pipelines, and full SaaS products.
-              </p>
-              <ul className="mt-6 flex flex-col gap-2.5">
-                {[
-                  "AI agents & automation",
-                  "Internal tools & dashboards",
-                  "Data pipelines",
-                  "Custom SaaS products",
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2.5 text-sm text-foreground"
-                  >
-                    <span className="text-emerald-600">
-                      <CheckIcon />
-                    </span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-auto pt-8">
-                <motion.a
-                  href="/labs"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-opacity hover:opacity-70"
-                >
-                  Visit LeanVentures Labs
-                  <ArrowRightIcon />
-                </motion.a>
-              </div>
-            </motion.div>
+            {[
+              {
+                icon: <UsersIcon />,
+                title: "Founder-First",
+                desc: "We specialize in early-stage startups. No enterprise bloat, no unnecessary complexity.",
+              },
+              {
+                icon: <ClockIcon />,
+                title: "Fast Delivery",
+                desc: "Most projects go from discovery to launch in 2-3 weeks. We move at startup speed.",
+              },
+              {
+                icon: <ShieldIcon />,
+                title: "No Lock-In",
+                desc: "You own everything we build. Full documentation, open systems, zero vendor lock-in.",
+              },
+              {
+                icon: <ZapIcon />,
+                title: "End-to-End",
+                desc: "Strategy, build, launch, and support. One team handles it all so nothing gets lost.",
+              },
+            ].map((item) => (
+              <motion.div
+                key={item.title}
+                variants={fadeUp}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 text-foreground">
+                  {item.icon}
+                </div>
+                <h3 className="text-[15px] font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  {item.desc}
+                </p>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
 
-      {/* ─── LEANPLANNER SHOWCASE ─── */}
+      {/* ─── HOW IT WORKS ─── */}
+      <section className="flex min-h-screen items-center border-y border-border/60 bg-card py-24 sm:py-32">
+        <div className="mx-auto max-w-5xl px-6">
+          <SectionHeader
+            label="How it works"
+            title="Three steps. Zero headaches."
+          />
+          <motion.div
+            className="mt-14 grid gap-10 sm:grid-cols-3"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+          >
+            <StepCard
+              number="01"
+              title="Discovery call"
+              description="We learn your business, map your current tools, and identify the highest-impact automations."
+            />
+            <StepCard
+              number="02"
+              title="Build & iterate"
+              description="We design, build, and test your workflows in short sprints — you see progress every week."
+            />
+            <StepCard
+              number="03"
+              title="Launch & support"
+              description="We deploy everything, train your team, and stick around to make sure it all runs smoothly."
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── PRICING ─── */}
       <section
-        id="products"
+        id="pricing"
         className="flex min-h-screen items-center py-24 sm:py-32"
       >
         <div className="mx-auto max-w-5xl px-6">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            {/* Left: Content */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={heroStagger}
-            >
-              <motion.div
-                variants={fadeUp}
-                transition={{ duration: 0.5 }}
-                className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-xs font-medium text-amber-700"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
-                </span>
-                Coming Soon
-              </motion.div>
+          <SectionHeader
+            label="Pricing"
+            title="Simple, transparent pricing"
+            description="No hourly billing surprises. Choose the package that fits your stage."
+          />
+          <motion.div
+            className="mt-14 grid gap-6 sm:grid-cols-3"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+          >
+            <PricingCard
+              tier="Starter"
+              price="$1,500"
+              period="project"
+              description="Perfect for a single automation or integration."
+              features={[
+                "1 workflow or integration",
+                "Airtable or n8n setup",
+                "2 rounds of revisions",
+                "Documentation included",
+                "1 week delivery",
+              ]}
+              ctaText="Get started"
+              ctaHref="#contact"
+            />
+            <PricingCard
+              tier="Growth"
+              price="$3,500"
+              period="project"
+              description="For founders ready to systematize operations."
+              features={[
+                "Up to 3 connected workflows",
+                "Airtable backend + automations",
+                "API integrations included",
+                "Priority Slack support",
+                "2-3 week delivery",
+              ]}
+              highlighted
+              ctaText="Most popular"
+              ctaHref="#contact"
+            />
+            <PricingCard
+              tier="Scale"
+              price="Custom"
+              period="month"
+              description="Ongoing automation partner for your team."
+              features={[
+                "Unlimited workflow requests",
+                "Dedicated automation engineer",
+                "Monthly strategy calls",
+                "Priority support & SLA",
+                "Cancel anytime",
+              ]}
+              ctaText="Book a call"
+              ctaHref="#contact"
+            />
+          </motion.div>
+        </div>
+      </section>
 
-              <motion.h2
-                variants={fadeUp}
-                transition={{ duration: 0.5 }}
-                className="text-3xl font-semibold tracking-tight sm:text-4xl"
-              >
-                LeanPlanner.app
-              </motion.h2>
+      {/* ─── REVIEWS ─── */}
+      <section
+        id="reviews"
+        className="flex min-h-screen items-center border-y border-border/60 bg-card py-24 sm:py-32"
+      >
+        <div className="mx-auto max-w-5xl px-6">
+          <SectionHeader
+            label="Client reviews"
+            title="Trusted by founders who ship"
+          />
+          <motion.div
+            className="mt-14 grid gap-6 sm:grid-cols-2"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+          >
+            <ReviewCard
+              quote="Create Workflow completely transformed our operations. We went from 4 hours of manual data entry every day to a fully automated pipeline in under two weeks. Absolute game-changer for our team."
+              name="Priya Sharma"
+              role="Founder, Stackwell"
+            />
+            <ReviewCard
+              quote="As a non-technical founder, I was drowning in spreadsheets. They built us an Airtable + n8n system that runs our entire fulfillment process. I wish I'd found them six months earlier."
+              name="Marcus Chen"
+              role="CEO, Patchwork Supply"
+            />
+          </motion.div>
+        </div>
+      </section>
 
-              <motion.p
-                variants={fadeUp}
-                transition={{ duration: 0.5 }}
-                className="mt-2 text-lg text-muted"
-              >
-                The planning tool built for how founders actually work.
-              </motion.p>
-
-              <motion.p
-                variants={fadeUp}
-                transition={{ duration: 0.5 }}
-                className="mt-4 text-sm leading-relaxed text-muted"
-              >
-                Lightweight roadmap, planning, and task management for solo
-                founders and small teams. Opinionated defaults, zero setup, and
-                just the features you actually use&mdash;nothing more.
-              </motion.p>
-
-              <motion.ul
-                variants={fadeUp}
-                transition={{ duration: 0.5 }}
-                className="mt-8 flex flex-col gap-3"
-              >
-                {[
-                  "Roadmap-first planning",
-                  "Built for solo founders and small teams",
-                  "Opinionated defaults, zero setup",
-                  "Integrates with your existing stack",
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2.5 text-sm text-foreground"
-                  >
-                    <span className="text-emerald-600">
-                      <CheckIcon />
-                    </span>
-                    {f}
-                  </li>
-                ))}
-              </motion.ul>
-
-              <motion.div
-                variants={fadeUp}
-                transition={{ duration: 0.5 }}
-                className="mt-10"
-              >
-                <motion.a
-                  href="mailto:hello@leanventures.com?subject=LeanPlanner Waitlist"
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-8 text-sm font-medium text-accent-foreground shadow-sm transition-opacity hover:opacity-80"
-                >
-                  Join the waitlist
-                </motion.a>
-              </motion.div>
-            </motion.div>
-
-            {/* Right: Mockup */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={scaleIn}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="rounded-2xl border border-card-border bg-card p-6 shadow-lg">
-                {/* Mock title bar */}
-                <div className="mb-6 flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-red-300" />
-                  <div className="h-3 w-3 rounded-full bg-amber-300" />
-                  <div className="h-3 w-3 rounded-full bg-emerald-300" />
-                  <span className="ml-3 text-xs text-muted">
-                    LeanPlanner.app
-                  </span>
-                </div>
-
-                {/* Mock sidebar + content */}
-                <div className="flex gap-4">
-                  {/* Sidebar */}
-                  <div className="hidden w-36 flex-shrink-0 space-y-3 sm:block">
-                    <div className="h-4 w-20 rounded bg-neutral-200" />
-                    <div className="h-3 w-28 rounded bg-neutral-100" />
-                    <div className="h-3 w-24 rounded bg-neutral-100" />
-                    <div className="h-3 w-32 rounded bg-neutral-100" />
-                    <div className="mt-4 h-4 w-16 rounded bg-neutral-200" />
-                    <div className="h-3 w-28 rounded bg-neutral-100" />
-                    <div className="h-3 w-20 rounded bg-neutral-100" />
-                  </div>
-
-                  {/* Main content */}
-                  <div className="flex-1 space-y-4">
-                    <div className="h-5 w-40 rounded bg-neutral-200" />
-                    <div className="space-y-2">
-                      {[
-                        { w: "w-full", color: "bg-blue-100" },
-                        { w: "w-4/5", color: "bg-emerald-100" },
-                        { w: "w-3/5", color: "bg-amber-100" },
-                        { w: "w-11/12", color: "bg-purple-100" },
-                      ].map((bar, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-3 rounded-lg border border-card-border p-3"
-                        >
-                          <div
-                            className={`h-2 w-2 rounded-full ${bar.color.replace("100", "400")}`}
-                          />
-                          <div
-                            className={`h-3 ${bar.w} rounded ${bar.color}`}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex gap-3 pt-2">
-                      <div className="h-8 flex-1 rounded-lg bg-neutral-100" />
-                      <div className="h-8 flex-1 rounded-lg bg-neutral-100" />
-                      <div className="h-8 flex-1 rounded-lg bg-neutral-100" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating accent */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -bottom-8 -right-8 -z-10 h-40 w-40 rounded-full opacity-20 blur-3xl"
-                style={{ background: "var(--gradient-start)" }}
-              />
-            </motion.div>
-          </div>
+      {/* ─── FAQ ─── */}
+      <section className="flex min-h-screen items-center py-24 sm:py-32">
+        <div className="mx-auto w-full max-w-3xl px-6">
+          <SectionHeader label="FAQ" title="Common questions" />
+          <motion.div
+            className="mt-14"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
+          >
+            <FAQItem
+              question="What tools do you work with?"
+              answer="We specialize in n8n and Airtable, but also work with Zapier, Make, custom REST APIs, webhooks, and most SaaS tools with an API. If your tools can talk to each other, we can wire them up."
+            />
+            <FAQItem
+              question="How long does a typical project take?"
+              answer="Most projects are delivered within 1-3 weeks depending on scope. A single workflow integration might take a few days; a full operational backend with multiple automations typically takes 2-3 weeks."
+            />
+            <FAQItem
+              question="Do I need to be technical?"
+              answer="Not at all — that's the whole point. We handle all the technical work. You tell us what you need done, and we build systems that anyone on your team can use without writing a line of code."
+            />
+            <FAQItem
+              question="What if I need changes after launch?"
+              answer="We offer retainer plans for ongoing support and new workflow requests. For one-off changes, we're happy to scope a small follow-up project. Either way, you're never locked in."
+            />
+            <FAQItem
+              question="How do we communicate during a project?"
+              answer="We keep it simple — Slack or email for async updates, a shared project board for visibility, and a weekly check-in call. We're async-first and work across time zones."
+            />
+          </motion.div>
         </div>
       </section>
 
@@ -481,25 +485,25 @@ export default function LeanVentures() {
             transition={{ duration: 0.6 }}
             className="text-3xl font-semibold tracking-tight sm:text-4xl"
           >
-            Let&rsquo;s build something together
+            Ready to automate?
           </motion.h2>
           <motion.p
             variants={fadeUp}
             transition={{ duration: 0.6 }}
             className="mx-auto mt-4 max-w-md text-base leading-relaxed text-neutral-400"
           >
-            Whether you need automation services or want early access to our
-            tools&mdash;we&rsquo;d love to hear from you.
+            Book a free 30-minute call. We&rsquo;ll scope your project, give
+            you an honest estimate, and only move forward if it&rsquo;s a fit.
           </motion.p>
           <motion.a
-            href="mailto:hello@leanventures.com"
+            href="mailto:hello@createworkflow.com"
             variants={fadeUp}
             transition={{ duration: 0.6 }}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             className="mt-10 inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-medium text-foreground shadow-sm transition-opacity hover:opacity-90"
           >
-            hello@leanventures.com
+            hello@createworkflow.com
           </motion.a>
         </motion.div>
       </section>
@@ -513,31 +517,30 @@ export default function LeanVentures() {
         className="border-t border-border/60 py-10"
       >
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 text-xs text-muted sm:flex-row">
-          <span>
-            &copy; {new Date().getFullYear()} LeanVentures. All rights
-            reserved.
-          </span>
+          <div className="flex flex-col items-center gap-1 sm:items-start">
+            <span>
+              &copy; {new Date().getFullYear()} Create Workflow. All rights
+              reserved.
+            </span>
+          </div>
           <div className="flex gap-6">
-            <a href="/services" className="transition-colors hover:text-foreground">
-              LeanWorkflows.ai
-            </a>
             <a
-              href="/labs"
+              href="#services"
               className="transition-colors hover:text-foreground"
             >
-              Labs
+              Services
             </a>
             <a
-              href="/resources"
+              href="#pricing"
               className="transition-colors hover:text-foreground"
             >
-              Resources
+              Pricing
             </a>
             <a
-              href="#products"
+              href="#reviews"
               className="transition-colors hover:text-foreground"
             >
-              LeanPlanner.app
+              Reviews
             </a>
             <a
               href="#contact"

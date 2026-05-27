@@ -380,15 +380,9 @@ export default function TechStack() {
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 text-xs text-muted sm:flex-row">
           <div className="flex flex-col items-center gap-1 sm:items-start">
             <span>
-              &copy; {new Date().getFullYear()} LeanVentures. All rights
+              &copy; {new Date().getFullYear()} Create Workflow. All rights
               reserved.
             </span>
-            <a
-              href="/"
-              className="text-muted/60 transition-colors hover:text-foreground"
-            >
-              A LeanVentures company
-            </a>
           </div>
           <div className="flex gap-6">
             <Link

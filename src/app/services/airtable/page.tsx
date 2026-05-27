@@ -731,12 +731,12 @@ export default function AirtableServices() {
             className="mt-10"
           >
             <motion.a
-              href="mailto:hello@leanworkflows.ai"
+              href="mailto:hello@createworkflow.com"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               className="inline-flex h-12 items-center gap-2 rounded-full bg-background px-8 text-sm font-medium text-foreground transition-opacity hover:opacity-80"
             >
-              hello@leanworkflows.ai
+              hello@createworkflow.com
               <ArrowRightIcon />
             </motion.a>
           </motion.div>
@@ -773,10 +773,7 @@ export default function AirtableServices() {
             </Link>
           </div>
           <p className="text-xs text-muted/60">
-            &copy; {new Date().getFullYear()} LeanWorkflows.ai &middot;{" "}
-            <Link href="/" className="underline transition-colors hover:text-muted">
-              A LeanVentures company
-            </Link>
+            &copy; {new Date().getFullYear()} Create Workflow
           </p>
         </div>
       </footer>

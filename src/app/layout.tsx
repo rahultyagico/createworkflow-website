@@ -14,9 +14,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LeanVentures — Building Tools and Services for Founders",
+  title: "Create Workflow — Building Tools and Services for Founders",
   description:
-    "LeanVentures is a studio that helps early-stage founders move faster — through hands-on automation services and purpose-built products.",
+    "Create Workflow is a studio that helps early-stage founders move faster — through hands-on automation services and purpose-built products.",
 };
 
 export default function RootLayout({

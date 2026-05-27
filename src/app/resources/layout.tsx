@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resources — Curated Tools & Guides for Founders | LeanVentures",
+  title: "CEO Frequency — Curated Tools & Guides for Founders | Create Workflow",
   description:
     "Handpicked tools, tech stacks, and resources we recommend to every founder we work with. Battle-tested and founder-approved.",
 };
