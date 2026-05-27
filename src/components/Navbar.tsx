@@ -23,6 +23,7 @@ const NAV_LINKS: NavLink[] = [
     href: "/services",
     label: "Services",
     children: [
+      { href: "/services/ai-automation", label: "AI Automation" },
       { href: "/services/airtable", label: "Airtable Services" },
       { href: "/labs", label: "Customized Solutions" },
     ],
@@ -58,6 +59,13 @@ export function Navbar() {
     return isActive(href)
       ? "text-foreground font-medium"
       : "text-muted transition-colors hover:text-foreground";
+  }
+
+  function handleHomeClick(e: React.MouseEvent) {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   const openDropdown = useCallback(() => {
@@ -161,6 +169,7 @@ export function Navbar() {
         >
           <Link
             href="/"
+            onClick={handleHomeClick}
             className={`text-sm whitespace-nowrap ${linkClass("/")}`}
           >
             Home
@@ -170,17 +179,23 @@ export function Navbar() {
         {/* ─── Center zone ─── */}
         <div className="flex-1 flex items-center justify-center relative">
           {/* Brand — visible in extended */}
-          <motion.span
+          <motion.div
             animate={{
               opacity: isScrolled ? 1 : 0,
               scale: isScrolled ? 1 : 0.85,
             }}
             transition={transition}
-            className={`hidden md:block text-lg font-semibold tracking-tight absolute ${!isScrolled ? "pointer-events-none" : ""}`}
+            className={`hidden md:block absolute ${!isScrolled ? "pointer-events-none" : ""}`}
             aria-hidden={!isScrolled}
           >
-            Create<span className="text-muted"> Workflow</span>
-          </motion.span>
+            <Link
+              href="/"
+              onClick={handleHomeClick}
+              className="text-lg font-semibold tracking-tight transition-opacity hover:opacity-70"
+            >
+              Create<span className="text-muted"> Workflow</span>
+            </Link>
+          </motion.div>
 
           {/* Compact links — visible in pill state */}
           <motion.div
@@ -231,7 +246,7 @@ export function Navbar() {
             opacity: isScrolled ? 1 : 0,
           }}
           transition={transition}
-          className="hidden md:flex items-center justify-end gap-8 overflow-hidden"
+          className={`hidden md:flex items-center justify-end gap-8 min-w-0 ${!isScrolled ? "pointer-events-none" : ""}`}
         >
           {NAV_LINKS.filter((l) => l.href !== "/").map((link) =>
             renderDesktopLink(link)
@@ -249,9 +264,13 @@ export function Navbar() {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="pointer-events-auto md:hidden mx-auto mt-2 max-w-[280px] rounded-2xl border border-border/60 bg-background/90 backdrop-blur-md p-4"
           >
-            <p className="text-center text-[13px] font-semibold tracking-tight text-muted mb-4">
+            <Link
+              href="/"
+              onClick={(e) => { handleHomeClick(e); setMobileOpen(false); }}
+              className="block text-center text-[13px] font-semibold tracking-tight text-muted mb-4 transition-opacity hover:opacity-70"
+            >
               Create<span className="text-foreground"> Workflow</span>
-            </p>
+            </Link>
             <div className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
                 <div key={link.href}>

@@ -48,6 +48,7 @@ export default function Home() {
       >
         <motion.div
           aria-hidden
+          suppressHydrationWarning
           style={{
             y: blobY,
             scale: blobScale,
