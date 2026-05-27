@@ -37,6 +37,18 @@ const TESTIMONIALS = [
   },
   {
     quote:
+      "Create Workflow doesn't operate like a team that simply completes tasks for you. They coach. They teach. They challenge your assumptions. When I proposed certain design ideas, they didn't automatically agree — they asked questions, pushed me to clarify requirements, and think in systems rather than isolated features. That shift in mindset has been one of the most valuable outcomes of working together.",
+    name: "[Name]",
+    role: "[Role]",
+  },
+  {
+    quote:
+      "Rather than patching issues, they look at root causes. Rather than adding complexity, they search for simplification. They consistently asked how to design something robust, clean, and future-proof. That perspective helped me move from building tactical solutions to building strategic systems.",
+    name: "[Name]",
+    role: "[Role]",
+  },
+  {
+    quote:
       "Create Workflow is more than a talented tech team. They have very good business and common sense and are a terrific sounding board on problem solving and offering creative solutions. Very responsive and reliable. I would recommend them highly.",
     name: "[Name]",
     role: "[Role]",
@@ -426,7 +438,7 @@ export default function Home() {
             title="Trusted by founders who ship"
           />
           <motion.div
-            className="mt-14 grid gap-6 sm:grid-cols-3"
+            className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
