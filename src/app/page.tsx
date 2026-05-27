@@ -28,6 +28,39 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { PricingCard } from "@/components/PricingCard";
 import { FAQItem } from "@/components/FAQItem";
 
+const TESTIMONIALS = [
+  {
+    quote:
+      "They don't just know how to build things — they understand why certain approaches are better than others. Every recommendation came with reasoning. They steered me toward proven structures and scalable automation patterns, saving me significant time, rework, and resources. The speed at which I can now design, iterate, and improve has increased dramatically.",
+    name: "[Name]",
+    role: "[Role]",
+  },
+  {
+    quote:
+      "Create Workflow doesn't operate like a team that simply completes tasks for you. They coach. They teach. They challenge your assumptions. When I proposed certain design ideas, they didn't automatically agree — they asked questions, pushed me to clarify requirements, and think in systems rather than isolated features. That shift in mindset has been one of the most valuable outcomes of working together.",
+    name: "[Name]",
+    role: "[Role]",
+  },
+  {
+    quote:
+      "Rather than patching issues, they look at root causes. Rather than adding complexity, they search for simplification. They consistently asked how to design something robust, clean, and future-proof. That perspective helped me move from building tactical solutions to building strategic systems.",
+    name: "[Name]",
+    role: "[Role]",
+  },
+  {
+    quote:
+      "Create Workflow is more than a talented tech team. They have very good business and common sense and are a terrific sounding board on problem solving and offering creative solutions. Very responsive and reliable. I would recommend them highly.",
+    name: "[Name]",
+    role: "[Role]",
+  },
+  {
+    quote:
+      "My problem persisted for 6 months until Create Workflow came and delivered the project in 3 days. They went an extra mile to help me host and run it, which wasn't in their scope. Create Workflow is top tier talent and one of the most professional teams I've seen in tech. Extremely reliable.",
+    name: "[Name]",
+    role: "[Role]",
+  },
+];
+
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -405,22 +438,15 @@ export default function Home() {
             title="Trusted by founders who ship"
           />
           <motion.div
-            className="mt-14 grid gap-6 sm:grid-cols-2"
+            className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
           >
-            <ReviewCard
-              quote="Create Workflow completely transformed our operations. We went from 4 hours of manual data entry every day to a fully automated pipeline in under two weeks. Absolute game-changer for our team."
-              name="Priya Sharma"
-              role="Founder, Stackwell"
-            />
-            <ReviewCard
-              quote="As a non-technical founder, I was drowning in spreadsheets. They built us an Airtable + n8n system that runs our entire fulfillment process. I wish I'd found them six months earlier."
-              name="Marcus Chen"
-              role="CEO, Patchwork Supply"
-            />
+            {TESTIMONIALS.map((t, i) => (
+              <ReviewCard key={i} quote={t.quote} name={t.name} role={t.role} />
+            ))}
           </motion.div>
         </div>
       </section>

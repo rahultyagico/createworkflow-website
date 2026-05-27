@@ -9,14 +9,12 @@ import {
   heroStagger,
 } from "@/components/animations";
 import {
-  BrainIcon,
   BotIcon,
   SparklesIcon,
   ScanIcon,
   MailIcon,
   SearchIcon,
   ZapIcon,
-  ShieldIcon,
   CheckIcon,
   ArrowRightIcon,
   UsersIcon,
@@ -352,6 +350,7 @@ const STATS = [
   { number: "10×", label: "Faster than manual" },
   { number: "2–4 wks", label: "Time to deploy" },
 ];
+
 
 /* ── Page ── */
 
@@ -705,55 +704,6 @@ export default function AIAutomationServices() {
               ctaText="Book a call"
               ctaHref="#contact"
             />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── 9. SOCIAL PROOF STRIP ─── */}
-      <section className="border-b border-border/60 py-16">
-        <div className="mx-auto max-w-4xl px-6">
-          <motion.div
-            className="grid gap-6 sm:grid-cols-3"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={staggerContainer}
-          >
-            {[
-              {
-                quote:
-                  "We were manually qualifying 200+ leads a week. The AI agent Create Workflow built now does it in seconds, and our close rate went up because reps are only talking to the right people.",
-                name: "James Okonkwo",
-                role: "Head of Sales, Relio",
-              },
-              {
-                quote:
-                  "Their AI support agent handles 75% of our tickets without escalation. Our team went from drowning in repetitive questions to actually solving hard problems.",
-                name: "Divya Menon",
-                role: "Founder, Helpdeck",
-              },
-              {
-                quote:
-                  "The invoice processing agent alone saved us 15 hours a week. Three people were manually entering data — now zero. The ROI was immediate.",
-                name: "Tom Farrell",
-                role: "COO, Bridgepoint Ventures",
-              },
-            ].map((r) => (
-              <motion.div
-                key={r.name}
-                variants={scaleIn}
-                transition={{ duration: 0.45 }}
-                className="rounded-2xl border border-card-border bg-card p-7"
-              >
-                <p className="text-sm leading-relaxed text-muted">
-                  &ldquo;{r.quote}&rdquo;
-                </p>
-                <div className="mt-5">
-                  <p className="text-sm font-semibold">{r.name}</p>
-                  <p className="mt-0.5 text-xs text-muted">{r.role}</p>
-                </div>
-              </motion.div>
-            ))}
           </motion.div>
         </div>
       </section>
